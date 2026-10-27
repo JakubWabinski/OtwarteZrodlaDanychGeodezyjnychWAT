@@ -59,7 +59,7 @@ limit_artykulow = int(limit_str) if limit_str.isdigit() else 10
 
 # Generator bezpiecznego ciągu User-Agent bez polskich znaków (zgodnie z normą ASCII dla HTTP)
 ua_woj = clean_ascii(selected_woj)
-USER_AGENT = f"GIS_AcademicLab_{ua_woj}/1.0 (jakub.wabinski@wat.edu.pl)"
+USER_AGENT = f"GIS_AcademicLab_{ua_woj}/1.0 (jakis.student@wat.edu.pl)"
 
 # ------------------------------------------------------------------------------
 # 2. WYSZUKIWANIE KANDYDATÓW (MEDIAWIKI API Z TIMEOUTEM)
