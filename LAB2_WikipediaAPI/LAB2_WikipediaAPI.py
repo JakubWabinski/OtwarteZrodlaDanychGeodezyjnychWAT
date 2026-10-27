@@ -1,11 +1,11 @@
 # ==============================================================================
 # KOMÓRKA 1: INSTALACJA PAKIETÓW I MODELU JĘZYKOWEGO
 # ==============================================================================
-print("1/5. Przygotowywanie środowiska i instalacja pakietów w chmurze...")
+print("1/5. Przygotowywanie środowiska...")
 !pip install --quiet wikipedia-api spacy geopandas shapely
 !python -m spacy download pl_core_news_sm --quiet
 
-print("\n Środowisko Google Colab zostało skonfigurowane i jest gotowe do pracy!")
+print("\n Środowisko Google Colab zostało skonfigurowane!")
 
 # ==============================================================================
 # KOMÓRKA 2: GŁÓWNY SKRYPT INTERAKTYWNY (CZYSTY POTOK ETL)
@@ -40,7 +40,7 @@ wojewodztwa = [
 ]
 
 print("\n" + "=" * 65, flush=True)
-print("     LABORATORIUM GIS: GEOGRAFIA ENCYKLOPEDYCZNA (NLP + PRNG)", flush=True)
+print("     LABORATORIUM GIS: WikipediaAPI", flush=True)
 print("=" * 65, flush=True)
 
 print("\nLista województw Polski:", flush=True)
@@ -59,7 +59,7 @@ limit_artykulow = int(limit_str) if limit_str.isdigit() else 10
 
 # Generator bezpiecznego ciągu User-Agent bez polskich znaków (zgodnie z normą ASCII dla HTTP)
 ua_woj = clean_ascii(selected_woj)
-USER_AGENT = f"GIS_AcademicLab_{ua_woj}/1.0 (kontakt@uczydlo.edu.pl)"
+USER_AGENT = f"GIS_AcademicLab_{ua_woj}/1.0 (jakub.wabinski@wat.edu.pl)"
 
 # ------------------------------------------------------------------------------
 # 2. WYSZUKIWANIE KANDYDATÓW (MEDIAWIKI API Z TIMEOUTEM)
@@ -172,7 +172,7 @@ with open(raw_text_filename, "w", encoding="utf-8") as f:
         f.write("--- PEŁNA TREŚĆ ARTYKUŁU (FULL TEXT) ---\n")
         f.write(p.text + "\n\n")
 
-print(f" -> Wygenerowano plik pośredni z surową treścią: '{raw_text_filename}'", flush=True)
+print(f" -> Wygenerowano plik pośredni z surową treścią artykułów: '{raw_text_filename}'", flush=True)
 
 # ------------------------------------------------------------------------------
 # 5. EKSTRAKCJA FRAZ I LEMATYZACJA W SPACY
@@ -272,7 +272,7 @@ for title, coords in geokodowane_baza.items():
 # ------------------------------------------------------------------------------
 df_geo = pd.DataFrame(wyniki_obiekty)
 
-print("\n4/5. Tworzenie warstwy przestrzennej i reprojekcja do EPSG:2180...", flush=True)
+print("\n4/5. Tworzenie warstwy przestrzennej i transformacja do PL-1992...", flush=True)
 
 if not df_geo.empty:
     gdf_prng = gpd.GeoDataFrame(
@@ -306,7 +306,7 @@ if len(gdf_wynik_2180) > 0:
     # 2. Zapis raportu podsumowującego
     with open(report_filename, "w", encoding="utf-8") as f:
         f.write("=================================================================\n")
-        f.write(f"      RAPORT LABORATORIUM GIS - GEOGRAFIA ENCYKLOPEDYCZNA\n")
+        f.write(f"      RAPORT LABORATORIUM OZDwG - WikipediaAPI\n")
         f.write("=================================================================\n")
         f.write(f"Województwo źródłowe: {selected_woj.upper()}\n")
         f.write(f"Liczba zaakceptowanych artykułów: {len(akceptowane_artykuly)}\n")
